@@ -1,0 +1,20 @@
+<script>
+
+x = [1,2,3];
+y = [1,2,3];
+
+// Wx + b
+W = 5;
+
+
+for(var loop=1000; loop>=0; loop--) {
+    var sigma = 0;
+    for(var i=0; i<3; i++) {
+        sigma += (W * x[i] - y[i]) * x[i]; 
+    }
+    W = W  - 0.1/3.0 * sigma;
+    console.log(W);
+}
+
+
+</script>
