@@ -1,0 +1,68 @@
+
+<script>
+x = [-1, 0, 1, 2, 3, 4, 3, 5, 5, 6, 7, 8];
+y = [-1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1];
+m = x.length - 1;
+
+function H(th0, th1, x0, x1) {
+    var e = Math.E;
+    var ret = 1.0/(1 + Math.pow(e, -(th0 * x0 + th1 * x1)));
+    /*console.log(th0, th1, x0, x1);*/
+    /*console.log("ret = ", ret);*/
+    return ret;
+}
+
+function der0H(th0, th1, x0, x1) {
+    var e = Math.E;
+    return Math.pow(e, -(th1*x1 + th0*x0)) * x0 / 
+        Math.pow(1 + Math.pow(e, -(th1*x1 + th0*x0)), 2);
+}
+
+function der1H(th0, th1, x0, x1) {
+    var e = Math.E;
+    return Math.pow(e, -(th1*x1 + th0*x0)) * x1 / 
+        Math.pow(1 + Math.pow(e, -(th1*x1 + th0*x0)), 2);
+}
+
+var th0, th1;
+th0 = -1;
+th1 = 3;
+
+
+for(var loop=100000; loop>=0; loop--) {
+    var sigma0 = 0;
+    var sigma1 = 0;
+
+    for(var i=1; i<=m; i++) {
+        //console.log( y[i]*der0H(th0, th1, 1, x[i]) , H(th0, th1, 1, x[i]) , (1 - y[i])*(-der0H(th0, th1, 1, x[i]) , (1 - H(th0, th1, 1, x[i]))));
+        
+        if(y[i] === 0) {
+            sigma0 += (-der0H(th0, th1, 1, x[i]) / (1 - H(th0, th1, 1, x[i]))); 
+        }
+        else{
+            sigma0 += der0H(th0, th1, 1, x[i]) / H(th0, th1, 1, x[i]);
+        } 
+    }
+    for(var i=1; i<=m; i++) {
+        if(y[i] === 0) {
+            sigma1 += (-der1H(th0, th1, 1, x[i]) / (1 - H(th0, th1, 1, x[i]))); 
+        }
+        else{
+            sigma1 += der1H(th0, th1, 1, x[i]) / H(th0, th1, 1, x[i]);
+        }
+    }
+
+    th0 += 0.01 * 1.0/m * sigma0;
+    th1 += 0.01 * 1.0/m * sigma1;
+}
+
+
+var url = "https://www.wolframalpha.com/input/?i=1%2F(1%2Be%5E-(" + th1 + "*x+" + th0 + "))";
+
+document.writeln(th1);
+document.writeln("<br />");
+document.writeln(th0);
+document.writeln("<br />");
+document.writeln(url);
+
+</script>

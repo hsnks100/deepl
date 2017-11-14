@@ -1,0 +1,41 @@
+
+
+<script>
+x = [-1, 0, 1, 2, 3, 4, 3, 5, 5, 6, 7, 8];
+y = [-1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1];
+m = x.length - 1;
+
+function H(th0, th1, x0, x1) {
+    var e = Math.E;
+    var ret = 1.0/(1 + Math.pow(e, -(th0 * x0 + th1 * x1)));
+    return ret;
+}
+var th0, th1;
+th0 = -1;
+th1 = 5;
+
+
+for(var loop=10000; loop>=0; loop--) {
+    var sigma0 = 0;
+    var sigma1 = 0;
+
+    for(var i=1; i<=m; i++) {
+        
+        sigma0 += (H(th0, th1, 1, x[i]) - y[i]) * 1;
+        sigma1 += (H(th0, th1, 1, x[i]) - y[i]) * x[i];
+    }
+
+    th0 -= 0.001 * 1.0/m * sigma0;
+    th1 -= 0.001 * 1.0/m * sigma1;
+}
+
+var url = "https://www.wolframalpha.com/input/?i=1%2F(1%2Be%5E-(" + th1 + "*x+" + th0 + "))";
+
+document.writeln(th1);
+document.writeln("<br />");
+document.writeln(th0);
+document.writeln("<br />");
+document.writeln(url);
+</script>
+
+

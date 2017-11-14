@@ -1,0 +1,40 @@
+<script>
+
+x1 = [-1, 1,2,3];
+x2 = [-1, 3,5,9];
+y = [-1, 3,5,7];
+var len = 3.0;
+// Wx + b
+var th0 = 2;
+var th1 = 2;
+var th2 = 2;
+
+
+for(var loop=1000; loop>=0; loop--) {
+    var sigma0 = 0;
+    var sigma1 = 0;
+    var sigma2 = 0;
+    for(var i=1; i<=len; i++) {
+        sigma2 += (th2 * x2[i] + th1 * x1[i] + th0 * 1 - y[i]) * x2[i];
+    }
+    for(var i=1; i<=len; i++) {
+        sigma1 += (th2 * x2[i] + th1 * x1[i] + th0 * 1 - y[i]) * x1[i];
+    }
+    for(var i=1; i<=len; i++) {
+        sigma0 += (th2 * x2[i] + th1 * x1[i] + th0 * 1 - y[i]) * 1;
+    }
+    
+    th2 -= 0.001/ len * sigma2;
+    th1 -= 0.001 / len * sigma1;
+    th0 -= 0.001 / len * sigma0;   
+    
+    console.log(th2, th1, th0);
+}
+document.writeln(th2);
+document.writeln("<br />");
+document.writeln(th1);
+document.writeln("<br />");
+document.writeln(th0);
+</script>
+
+
